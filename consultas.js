@@ -1,4 +1,5 @@
 const { Pool } = require('pg')
+const bcrypt = require('bcryptjs')
 
 const pool = new Pool({
     host: 'localhost',
@@ -21,14 +22,17 @@ const deleteEvento = async(id) => {
 }
 
 const verificarCredenciales = async(email, password) => {
-    const consulta = "SELECT * FROM usuarios WHERE email = $1 AND password = $2"
-    const values = [email, password]
-    const { rowCount } = await pool.query(consulta, values)
-    if (!rowCount)
-        throw { code: 404, message: "No se encontró ningún usuario con estas credenciales" }
+    const values = [email]
+    const consulta = "SELECT * FROM usuarios WHERE email = $1"
+    const { rows: [usuario], rowCount } = await pool.query(consulta, values)
+
+    const { password: passwordEncriptada } = usuario
+    const passwordEsCorrecta = bcrypt.compareSync(password, passwordEncriptada)
+
+    if (!passwordEsCorrecta || !rowCount)
+        throw { code: 401, message: "Email o contraseña incorrecta" }
 
 }
-
 
 const actualizarEvento = async(id, data) => {
     try {
@@ -58,6 +62,15 @@ const actualizarEvento = async(id, data) => {
     }
 }
 
+const registrarUsuario = async(usuario) => {
+    let { email, password } = usuario
+    const passwordEncriptada = bcrypt.hashSync(password)
+    password = passwordEncriptada
+    const values = [email, passwordEncriptada]
+    const consulta = "INSERT INTO usuarios values (DEFAULT, $1, $2)"
+    await pool.query(consulta, values)
+}
 
 
-module.exports = { getEventos, deleteEvento, verificarCredenciales, actualizarEvento }
+
+module.exports = { getEventos, deleteEvento, verificarCredenciales, actualizarEvento, registrarUsuario }

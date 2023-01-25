@@ -28,6 +28,7 @@ http://localhost:3000/
 http://localhost:3000/eventos
 http://localhost:3000/eventos/3
 http://localhost:3000/login
+http://localhost:3000/usuarios
 
 Login
 
@@ -37,9 +38,21 @@ Login
   
 }
 
+{
+  "email": "secretario@vidasana.com",
+ "password":  "11223344"
+  
+}
+
+{
+  "email": "tesorero@vidasana.com",
+ "password":  "5353456"
+  
+}
+
 Apuntar token cada vez:
 
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHZpZGFzYW5hLmNvbSIsImlhdCI6MTY3NDUzMDEzNX0.zVpcWbaOe-ieIt_Ay9THeS0HwLnCQ7uNpzU_8_gA51k
+yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHZpZGFzYW5hLmNvbSIsImlhdCI6MTY3NDYwNDEzOH0.m1sS72sOwc_mmm5oLPuVzEr58SzuHEo2poOp9z8209M
 
 Probando método PUT para cambiar la fecha del tercer registro 
 
